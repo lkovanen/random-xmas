@@ -8,7 +8,7 @@ AWS_REGION = "us-east-1"
 JOULUPUKKI_EMAIL = "Joulupukki <joulu.pukki@lauri.io>"
 
 
-def email_body_text(giver: Elf, gift_recipient: Elf) -> tuple[str, str]:
+def email_body_text(giver: Elf, gift_recipient: Elf) -> str:
     return f"""{headline(giver)},
     
 {receiver_message()} {gift_recipient.name}.
@@ -21,7 +21,7 @@ t: Joulupukki
 """
 
 
-def email_body_html(giver: Elf, gift_recipient: Elf) -> tuple[str, str]:
+def email_body_html(giver: Elf, gift_recipient: Elf) -> str:
     return f"""<html>
 <head></head>
 <body>
@@ -72,7 +72,7 @@ def receiver_wishes_html(gift_recipient: Elf) -> str:
 
 
 def multi_wish_text() -> str:
-    return "on ollut tänä vuonna erityisen kiltti ja on lähettänyt Joulupukille listan mahdollisia lahjatoiveita:"
+    return "on ollut tänä vuonna erityisen kiltti ja lähetti Joulupukille listan mahdollisia lahjatoiveita:"
 
 
 def single_wish_text() -> str:
@@ -82,7 +82,7 @@ def single_wish_text() -> str:
 
 
 def no_wish_text() -> str:
-    return "ei kirjoittanut Joulupukille lahjatoiveita, mutta kertoi pitävänsä kaikista sopivista yllätyksistä!"
+    return "ei kirjoittanut Joulupukille lahjatoiveita, mutta kertoi olleensa hyvin hyvin kilttinä!"
 
 
 def send_real_email(giver: Elf, gift_recipient: Elf, real_run: bool) -> None:
@@ -92,14 +92,18 @@ def send_real_email(giver: Elf, gift_recipient: Elf, real_run: bool) -> None:
     if real_run:
         send_email(giver.email, subject, body_text, body_html)
     else:
-        print(f"Would send email to '{giver.email}' with subject '{subject}'")
-        print(body_text)
-        print("=======")
-        print(body_html)
+        print_email(giver.email, subject, body_text, body_html)
+
+
+def print_email(recipient: str, subject: str, body_text: str, body_html: str) -> None:
+    print()
+    print(f"Would send email to '{recipient}' with subject '{subject}':")
+    print("--- MESSAGE START ---")
+    print(body_text)
+    print("---- MESSAGE END ----")
 
 
 def send_test_email(recipient: str) -> None:
-    sender = JOULUPUKKI_EMAIL
     subject = "Amazon SES Test (Joulupukki)"
 
     # The email body for recipients with non-HTML email clients.
@@ -121,7 +125,7 @@ def send_test_email(recipient: str) -> None:
     </body>
     </html>
                 """
-    send_email(sender, recipient, subject, body_text, body_html)
+    send_email(recipient, subject, body_text, body_html)
 
 
 def send_email(recipient: str, subject: str, body_text: str, body_html: str) -> None:

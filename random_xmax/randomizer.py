@@ -10,7 +10,7 @@ def has_self_mapping(mapping: list[int]) -> bool:
 
 def create_random_mapping(N: int) -> list[int]:
     if N == 1:
-        return None
+        raise ValueError("N must be greater than 1")
     if N == 2:
         return [1, 0]
 

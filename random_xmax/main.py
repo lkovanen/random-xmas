@@ -7,6 +7,18 @@ from Elf import Elf
 from emails import send_real_email, send_test_email
 from randomizer import create_random_mapping
 
+MAILS_PER_SECOND = 14
+
+
+def send_emails(elves: list[Elf], real_run: bool = False) -> None:
+    recipient_index = create_random_mapping(len(elves))
+    for giver, i_recipient in zip(elves, recipient_index):
+        send_real_email(giver, elves[i_recipient], real_run)
+        if real_run:
+            # Wait a bit to avoid spamming the mail server.
+            time.sleep(1.1 / MAILS_PER_SECOND)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="""Buy less, have a merrier christmas!"""
@@ -45,8 +57,4 @@ if __name__ == "__main__":
     elves = [Elf.model_validate(d) for d in data]
     print(f"Found details for {len(elves)} elves")
 
-    recipient_index = create_random_mapping(len(elves))
-    for giver, i_recipient in zip(elves, recipient_index):
-        send_real_email(giver, elves[i_recipient], args.merry_christmas)
-        if args.merry_christmas:
-            time.sleep(1.1)
+    send_emails(elves, real_run=args.merry_christmas)
