@@ -12,10 +12,10 @@ poetry install
 
 Check the constants at the top of `email.py`. Emails are sent using Amazon SES, so you must have everything setup correctly so that you can use the sender address defined as `JOULUPUKKI_EMAIL`.
 
-To test that sending email works, run
+To test that sending email works, create a temporary email with something like `https://tempmailo.com/` and send a test email:
 
 ```
-poetry run python random_xmax/main.py --test-email YOUR_EMAIL_ADDRESS
+poetry run python random_xmax/main.py --test-email EMAIL_ADDRESS
 ```
 
 Next create a data file of participants. This should be a json file with a single list where each element is an object like this:
