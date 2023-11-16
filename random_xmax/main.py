@@ -7,7 +7,7 @@ from Elf import Elf
 from emails import send_real_email, send_test_email
 from randomizer import create_random_mapping
 
-MAILS_PER_SECOND = 14
+MAILS_PER_SECOND = 10  # For throttling the mail server.
 
 
 def send_emails(elves: list[Elf], real_run: bool = False) -> None:

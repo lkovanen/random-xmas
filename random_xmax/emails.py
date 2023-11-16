@@ -2,10 +2,8 @@ import boto3
 from botocore.exceptions import ClientError
 from Elf import Elf
 
-# The character encoding for the email.
-CHARSET = "UTF-8"
 AWS_REGION = "us-east-1"
-JOULUPUKKI_EMAIL = "Joulupukki <joulu.pukki@lauri.io>"
+JOULUPUKKI_EMAIL = "Joulupukki <joulupukki@example.com>"
 
 
 def email_body_text(giver: Elf, gift_recipient: Elf) -> str:
@@ -129,6 +127,9 @@ def send_test_email(recipient: str) -> None:
 
 
 def send_email(recipient: str, subject: str, body_text: str, body_html: str) -> None:
+    # The character encoding for the email.
+    CHARSET = "UTF-8"
+
     client = boto3.client("ses", region_name=AWS_REGION)
 
     try:
